@@ -1,12 +1,9 @@
 // === STANCE SELECTOR COMPONENT ===
 // UI for selecting and customizing reading stance/voice
 
-import { useState } from 'react';
 import { STANCE_PRESETS } from '../../lib/voice.js';
 
 const StanceSelector = ({ stance, setStance, showCustomize, setShowCustomize, compact = false, onReinterpret = null, gridOnly = false }) => {
-  const [showStanceHelp, setShowStanceHelp] = useState(false);
-
   const applyPreset = (presetKey) => {
     const preset = STANCE_PRESETS[presetKey];
     setStance({
@@ -105,73 +102,49 @@ const StanceSelector = ({ stance, setStance, showCustomize, setShowCustomize, co
 
   // Full mode for pre-reading selection
   return (
-    <div className="mb-6 relative">
-      {/* Header with help */}
-      <div className="flex items-center justify-center gap-2 mb-3">
-        <span className="text-zinc-500 text-xs tracking-wide">How should this land?</span>
-        <button
-          onClick={() => setShowStanceHelp(!showStanceHelp)}
-          className="w-4 h-4 rounded-full bg-[#f59e0b]/20 border border-[#f59e0b]/50 text-[#f59e0b] hover:bg-[#f59e0b]/30 hover:text-[#f59e0b] text-[10px] flex items-center justify-center transition-all"
-        >
-          ?
-        </button>
-      </div>
-
-      {showStanceHelp && (
-        <div className="absolute top-6 left-1/2 -translate-x-1/2 z-50 w-72 sm:w-80">
-          <div className="bg-zinc-800 border border-zinc-700 rounded-xl p-4 shadow-xl">
-            <p className="text-zinc-400 text-xs leading-relaxed">
-              Stance shapes the voice and depth of your reading — from quick and direct to layered and contemplative. The structure stays the same; the delivery adapts to you.
-            </p>
-            <button
-              onClick={() => setShowStanceHelp(false)}
-              className="mt-3 text-xs text-zinc-500 hover:text-zinc-300 w-full text-center"
-            >
-              Got it
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Preset selector */}
-      <div className="flex gap-2 mb-3 justify-center flex-wrap">
+    <div className="flex flex-col items-center stance-selector-mobile">
+      {/* Preset selector - single row with equal width buttons */}
+      <div className="flex gap-0.5 sm:gap-1.5 justify-center w-full px-0.5 sm:px-0">
         {Object.entries(STANCE_PRESETS).map(([key, preset]) => (
           <button
             key={key}
             onClick={() => applyPreset(key)}
             title={preset.description}
-            className={`px-3 py-1.5 rounded-lg text-xs transition-all ${
+            className={`flex-1 px-0.5 sm:px-2 py-2.5 sm:py-1.5 min-h-[44px] sm:min-h-0 rounded-sm text-[13px] sm:text-[11px] font-medium sm:font-normal transition-all text-center overflow-hidden ${
               currentPreset?.[0] === key
-                ? 'bg-zinc-700 text-zinc-100 border border-zinc-500'
-                : 'bg-zinc-900 text-zinc-500 hover:bg-zinc-800 hover:text-zinc-300'
+                ? 'bg-[#2e1065] text-amber-400'
+                : 'bg-zinc-900 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 active:bg-zinc-700'
             }`}
           >
-            {preset.name}
+            <span className="sm:hidden">{preset.name}</span>
+            <span className="hidden sm:inline">{preset.name}</span>
           </button>
         ))}
       </div>
 
-      {/* Customize toggle */}
-      <div className="flex justify-center mb-3">
+      {/* Custom label */}
+      <div className="text-center text-[12px] sm:text-[10px] text-zinc-500 mt-1">
+        {currentPreset ? currentPreset[1].name : 'Custom'}
+      </div>
+
+      {/* Config toggle */}
+      <div className="flex justify-center w-full text-[11px] sm:text-[10px] text-zinc-400 mt-0.5">
         <button
           onClick={() => setShowCustomize(!showCustomize)}
-          className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors"
+          className="hover:text-zinc-200 active:text-zinc-200 transition-colors flex items-center gap-0.5 py-2 sm:py-0 whitespace-nowrap"
         >
-          {showCustomize ? '▾ Hide customization' : '▸ Customize delivery'}
+          <span>{showCustomize ? '▾' : '▸'}</span>
+          <span>Config</span>
         </button>
       </div>
 
       {/* Custom sliders */}
       {showCustomize && (
-        <div className="bg-zinc-900/50 rounded-xl p-4 border border-zinc-800/50 max-w-xl mx-auto">
+        <div className="bg-zinc-900/50 rounded-xl p-4 border border-zinc-800/50 max-w-xl mx-auto mt-3 w-full">
           <DimensionRow label="Voice" dimension="voice" options={['wonder', 'warm', 'direct', 'grounded']} />
           <DimensionRow label="Focus" dimension="focus" options={['do', 'feel', 'see', 'build']} />
           <DimensionRow label="Density" dimension="density" options={['luminous', 'rich', 'clear', 'essential']} />
           <DimensionRow label="Scope" dimension="scope" options={['resonant', 'patterned', 'connected', 'here']} />
-
-          {!currentPreset && (
-            <p className="text-xs text-zinc-600 mt-3 text-center">Custom stance</p>
-          )}
         </div>
       )}
     </div>

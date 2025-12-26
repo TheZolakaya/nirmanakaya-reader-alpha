@@ -1,38 +1,38 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 const TextSizeSlider = () => {
   const [scale, setScale] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef(null);
 
-  // Load saved preference on mount
+  // Load saved preference on mount - ALWAYS set the CSS variable
   useEffect(() => {
     const saved = localStorage.getItem('nirmanakaya-text-scale');
-    if (saved) {
-      const value = parseFloat(saved);
-      setScale(value);
-      document.documentElement.style.setProperty('--text-scale', value);
+    const value = saved ? parseFloat(saved) : 1;
+    setScale(value);
+    // Always explicitly set the CSS variable on mount
+    document.documentElement.style.setProperty('--text-scale', value);
+  }, []);
+
+  // Close dropdown when clicking/tapping outside
+  const handleClickOutside = useCallback((e) => {
+    if (containerRef.current && !containerRef.current.contains(e.target)) {
+      setIsOpen(false);
     }
   }, []);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     if (!isOpen) return;
 
-    const handleClickOutside = (e) => {
-      if (containerRef.current && !containerRef.current.contains(e.target)) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('touchstart', handleClickOutside);
+    // Use capture phase for more reliable detection on mobile
+    document.addEventListener('mousedown', handleClickOutside, true);
+    document.addEventListener('touchend', handleClickOutside, true);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('touchstart', handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside, true);
+      document.removeEventListener('touchend', handleClickOutside, true);
     };
-  }, [isOpen]);
+  }, [isOpen, handleClickOutside]);
 
   // Update CSS variable and save to localStorage
   const handleChange = (e) => {

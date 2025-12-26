@@ -71,6 +71,7 @@ import ThreadedCard from '../components/reader/ThreadedCard.js';
 import ReadingSection from '../components/reader/ReadingSection.js';
 import StanceSelector from '../components/reader/StanceSelector.js';
 import IntroSection from '../components/reader/IntroSection.js';
+import TextSizeSlider from '../components/shared/TextSizeSlider.js';
 
 // NOTE: All data constants have been extracted to /lib modules.
 // See lib/archetypes.js, lib/constants.js, lib/spreads.js, lib/voice.js, lib/prompts.js, lib/corrections.js, lib/utils.js
@@ -1355,6 +1356,10 @@ Respond directly with the expanded content. No section markers needed. Keep it f
         
         {/* Header */}
         <div className="text-center mb-4 md:mb-6 mobile-header relative">
+          {/* Text Size Slider - top right */}
+          <div className="absolute right-0 top-0">
+            <TextSizeSlider />
+          </div>
           <div className="flex items-center justify-center gap-2">
             <h1 className="text-[20px] sm:text-2xl md:text-3xl font-extralight tracking-[0.2em] sm:tracking-[0.3em] mb-1 text-zinc-100">NIRMANAKAYA</h1>
             {!draws && (
@@ -1367,7 +1372,7 @@ Respond directly with the expanded content. No section markers needed. Keep it f
             )}
           </div>
           <p className="text-zinc-400 text-[11px] sm:text-xs tracking-wide">Consciousness Architecture Reader</p>
-          <p className="text-zinc-500 text-[10px] mt-0.5">v0.32.4 alpha • Triangle Color Fix</p>
+          <p className="text-zinc-500 text-[10px] mt-0.5">v0.33.0 alpha • Text Size &amp; Polish</p>
           {helpPopover === 'intro' && (
             <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-50 w-80 sm:w-96">
               <div className="bg-zinc-800 border border-zinc-700 rounded-xl p-4 shadow-xl">

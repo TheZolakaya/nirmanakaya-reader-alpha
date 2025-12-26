@@ -110,16 +110,18 @@ const ReadingSection = ({
   const sectionExpansions = expansions[sectionKey] || {};
   const isExpanding = expanding?.section === sectionKey;
 
-  // Determine section styling based on type
+  // Determine section styling based on type (with softer borders /30)
   const getSectionStyle = () => {
     if (type === 'summary') {
-      return 'bg-gradient-to-br from-amber-950/40 to-amber-900/20 border-amber-500/50';
+      return 'bg-gradient-to-br from-amber-950/40 to-amber-900/20 border-amber-500/30';
     } else if (type === 'letter') {
-      return 'bg-violet-950/30 border-violet-500/50';
+      return 'bg-violet-950/30 border-violet-500/30';
     } else if (houseColors) {
-      return `${houseColors.bg} ${houseColors.border}`;
+      // Use softer border opacity
+      const softerBorder = houseColors.border.replace('/50', '/30');
+      return `${houseColors.bg} ${softerBorder}`;
     }
-    return 'bg-zinc-900/50 border-zinc-800/50';
+    return 'bg-zinc-900/50 border-zinc-800/30';
   };
 
   const getBadgeStyle = () => {
@@ -147,7 +149,7 @@ const ReadingSection = ({
   const isCollapsible = onToggleCollapse !== undefined;
 
   return (
-    <div className={`rounded-xl border-2 p-4 mb-4 ${getSectionStyle()}`}>
+    <div className={`rounded-xl border-2 p-5 mb-5 reading-card ${getSectionStyle()}`}>
       {/* Section Header */}
       <div
         className={`flex flex-col gap-1 ${!isCollapsed ? 'mb-3' : ''} ${isCollapsible ? 'cursor-pointer group' : ''}`}
@@ -181,7 +183,7 @@ const ReadingSection = ({
 
       {/* Main Content - collapsible */}
       {!isCollapsed && (
-        <div className={`leading-relaxed text-sm mb-4 whitespace-pre-wrap ${getContentStyle()}`}>
+        <div className={`leading-relaxed text-scaled-sm mb-4 whitespace-pre-wrap ${getContentStyle()}`}>
           {content}
         </div>
       )}
@@ -240,7 +242,7 @@ const ReadingSection = ({
                   onClick={(e) => { e.stopPropagation(); onOperationSelect('reflect'); }}
                   className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
                     selectedOperation === 'reflect'
-                      ? 'bg-sky-900/60 text-sky-300 border-2 border-sky-500/60'
+                      ? 'bg-sky-900/60 text-sky-300 border-2 border-sky-500/60 hover:shadow-[0_0_15px_rgba(14,165,233,0.3)]'
                       : 'bg-zinc-800/50 text-zinc-400 border border-zinc-700/50 hover:text-zinc-200 hover:border-zinc-600'
                   }`}
                 >
@@ -250,7 +252,7 @@ const ReadingSection = ({
                   onClick={(e) => { e.stopPropagation(); onOperationSelect('forge'); }}
                   className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
                     selectedOperation === 'forge'
-                      ? 'bg-orange-900/60 text-orange-300 border-2 border-orange-500/60'
+                      ? 'bg-orange-900/60 text-orange-300 border-2 border-orange-500/60 hover:shadow-[0_0_15px_rgba(249,115,22,0.3)]'
                       : 'bg-zinc-800/50 text-zinc-400 border border-zinc-700/50 hover:text-zinc-200 hover:border-zinc-600'
                   }`}
                 >
@@ -354,7 +356,7 @@ const ReadingSection = ({
                       <div className="text-xs text-zinc-500 mb-2">{threadTrans.traditional}</div>
                     )}
                     {/* Response with hotlinks */}
-                    <div className="text-sm leading-relaxed text-zinc-300 whitespace-pre-wrap">
+                    <div className="text-scaled-sm leading-relaxed text-zinc-300 whitespace-pre-wrap">
                       {renderWithHotlinks(threadItem.interpretation, setSelectedInfo)}
                     </div>
                   </div>
@@ -379,7 +381,7 @@ const ReadingSection = ({
               ×
             </button>
           </div>
-          <div className="text-sm leading-relaxed whitespace-pre-wrap text-zinc-400">
+          <div className="text-scaled-sm leading-relaxed whitespace-pre-wrap text-zinc-400">
             {expContent}
           </div>
         </div>
@@ -439,7 +441,7 @@ const ReadingSection = ({
 
             {/* Rebalancer Content - collapsible */}
             {!isCorrectionCollapsed && (
-              <div className="leading-relaxed text-sm mb-4 whitespace-pre-wrap text-emerald-100/90">
+              <div className="leading-relaxed text-scaled-sm mb-4 whitespace-pre-wrap text-emerald-100/90">
                 {correction.content}
               </div>
             )}
@@ -487,7 +489,7 @@ const ReadingSection = ({
                     ×
                   </button>
                 </div>
-                <div className="text-sm leading-relaxed whitespace-pre-wrap text-zinc-400">
+                <div className="text-scaled-sm leading-relaxed whitespace-pre-wrap text-zinc-400">
                   {expContent}
                 </div>
               </div>
@@ -527,7 +529,7 @@ const ReadingSection = ({
                     onClick={(e) => { e.stopPropagation(); onOperationSelect('reflect'); }}
                     className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
                       selectedOperation === 'reflect'
-                        ? 'bg-sky-900/60 text-sky-300 border-2 border-sky-500/60'
+                        ? 'bg-sky-900/60 text-sky-300 border-2 border-sky-500/60 hover:shadow-[0_0_15px_rgba(14,165,233,0.3)]'
                         : 'bg-zinc-800/50 text-zinc-400 border border-zinc-700/50 hover:text-zinc-200 hover:border-zinc-600'
                     }`}
                   >
@@ -537,7 +539,7 @@ const ReadingSection = ({
                     onClick={(e) => { e.stopPropagation(); onOperationSelect('forge'); }}
                     className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
                       selectedOperation === 'forge'
-                        ? 'bg-orange-900/60 text-orange-300 border-2 border-orange-500/60'
+                        ? 'bg-orange-900/60 text-orange-300 border-2 border-orange-500/60 hover:shadow-[0_0_15px_rgba(249,115,22,0.3)]'
                         : 'bg-zinc-800/50 text-zinc-400 border border-zinc-700/50 hover:text-zinc-200 hover:border-zinc-600'
                     }`}
                   >

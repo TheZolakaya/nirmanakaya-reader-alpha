@@ -30,9 +30,9 @@ body {
    ============================================= */
 
 @media (max-width: 768px) {
-  /* Base font size increase for mobile readability */
+  /* Base font size for mobile - preserve text scaling */
   html {
-    font-size: 16px;
+    font-size: calc(16px * var(--text-scale));
   }
 
   /* Ensure minimum readable text */

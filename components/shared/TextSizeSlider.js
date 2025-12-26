@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const TextSizeSlider = () => {
   const [scale, setScale] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef(null);
 
   // Load saved preference on mount
   useEffect(() => {
@@ -13,6 +14,25 @@ const TextSizeSlider = () => {
       document.documentElement.style.setProperty('--text-scale', value);
     }
   }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleClickOutside = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [isOpen]);
 
   // Update CSS variable and save to localStorage
   const handleChange = (e) => {
@@ -30,7 +50,7 @@ const TextSizeSlider = () => {
   };
 
   return (
-    <div className="fixed top-3 right-3 z-50">
+    <div ref={containerRef} className="fixed top-3 right-3 z-50">
       {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}

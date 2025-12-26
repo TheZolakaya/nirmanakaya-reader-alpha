@@ -1371,7 +1371,7 @@ Respond directly with the expanded content. No section markers needed. Keep it f
             )}
           </div>
           <p className="text-zinc-400 text-[11px] sm:text-xs tracking-wide">Consciousness Architecture Reader</p>
-          <p className="text-zinc-500 text-[10px] mt-0.5">v0.33.1 alpha • Floating Text Slider</p>
+          <p className="text-zinc-500 text-[10px] mt-0.5">v0.33.2 alpha • Mobile Text Scaling Fix</p>
           {helpPopover === 'intro' && (
             <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-50 w-80 sm:w-96">
               <div className="bg-zinc-800 border border-zinc-700 rounded-xl p-4 shadow-xl">

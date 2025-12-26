@@ -2159,7 +2159,7 @@ Respond directly with the expanded content. No section markers needed. Keep it f
                                       : 'bg-zinc-800/50 text-zinc-400 border border-zinc-700/50 hover:text-zinc-200 hover:border-zinc-600'
                                   }`}
                                 >
-                                  Reflect
+                                  <span className="text-[10px] text-green-500">▶</span> Reflect
                                 </button>
                                 <button
                                   onClick={(e) => { e.stopPropagation(); setThreadOperations(prev => ({ ...prev, path: 'forge' })); }}
@@ -2169,7 +2169,7 @@ Respond directly with the expanded content. No section markers needed. Keep it f
                                       : 'bg-zinc-800/50 text-zinc-400 border border-zinc-700/50 hover:text-zinc-200 hover:border-zinc-600'
                                   }`}
                                 >
-                                  Forge
+                                  <span className="text-[10px] text-green-500">▶</span> Forge
                                 </button>
                               </div>
 
